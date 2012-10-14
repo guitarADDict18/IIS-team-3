@@ -181,7 +181,7 @@ public class substitutionPanel extends javax.swing.JPanel {
             for(int i=0; i<cipherText.length(); ++i){
                 char temp;
                 if(cipherText.charAt(i) - key < 97){
-                    temp = (char)(cipherText.charAt(i) - key + 123);
+                    temp = (char)(cipherText.charAt(i) - key + 26);
                 }else{
                     temp = (char)(cipherText.charAt(i) - key);
                 }
