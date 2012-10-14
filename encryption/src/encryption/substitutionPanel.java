@@ -27,33 +27,40 @@ public class substitutionPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         keyComboBox = new javax.swing.JComboBox();
         solveButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setLayout(new java.awt.GridBagLayout());
 
         plainTextArea.setColumns(20);
         plainTextArea.setRows(5);
-        plainTextArea.setEnabled(false);
         jScrollPane1.setViewportView(plainTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 0, 15);
         add(jScrollPane1, gridBagConstraints);
 
         cipherTextArea.setColumns(20);
         cipherTextArea.setRows(5);
+        cipherTextArea.setEnabled(false);
         jScrollPane2.setViewportView(cipherTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 15, 6, 15);
         add(jScrollPane2, gridBagConstraints);
 
         buttonGroup1.add(cpButton);
-        cpButton.setSelected(true);
         cpButton.setText("C -> P");
         cpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,11 +69,13 @@ public class substitutionPanel extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(12, 0, 0, 0);
         add(cpButton, gridBagConstraints);
 
         buttonGroup1.add(pcButton);
+        pcButton.setSelected(true);
         pcButton.setText("P -> C");
         pcButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,7 +84,7 @@ public class substitutionPanel extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
         add(pcButton, gridBagConstraints);
 
@@ -84,7 +93,7 @@ public class substitutionPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 3, 6, 3);
+        gridBagConstraints.insets = new java.awt.Insets(6, 18, 6, 18);
         add(jLabel1, gridBagConstraints);
 
         jLabel2.setText("Ciphertext");
@@ -92,14 +101,16 @@ public class substitutionPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(12, 3, 0, 3);
+        gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 18);
         add(jLabel2, gridBagConstraints);
 
         keyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(12, 0, 0, 0);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
         add(keyComboBox, gridBagConstraints);
 
         solveButton.setText("Solve");
@@ -109,10 +120,19 @@ public class substitutionPanel extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(6, 1, 0, 1);
         add(solveButton, gridBagConstraints);
+
+        jLabel3.setText("Key:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 5);
+        add(jLabel3, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
@@ -141,6 +161,7 @@ public class substitutionPanel extends javax.swing.JPanel {
     private javax.swing.JRadioButton cpButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox keyComboBox;
