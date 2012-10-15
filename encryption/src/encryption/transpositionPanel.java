@@ -90,6 +90,7 @@ public class transpositionPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         add(jScrollPane3, gridBagConstraints);
 
         jLabel1.setText("Plaintext");
@@ -166,9 +167,9 @@ public class transpositionPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
-        if(cpButton.isSelected()){
+        if (cpButton.isSelected()) {
             decrypt();
-        }else{
+        } else {
             encrypt();
         }
     }//GEN-LAST:event_solveButtonActionPerformed
@@ -184,7 +185,6 @@ public class transpositionPanel extends javax.swing.JPanel {
         plainTextArea.setEnabled(false);
         cipherTextArea.setEnabled(true);
     }//GEN-LAST:event_cpButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea cipherTextArea;
     private javax.swing.JRadioButton cpButton;
@@ -203,29 +203,60 @@ public class transpositionPanel extends javax.swing.JPanel {
     private javax.swing.JTable visTable;
     // End of variables declaration//GEN-END:variables
 
-    private void encrypt(){
-        if(plainTextArea.getText().length()!= 0){
-            //Text area isn't empty so we can perform the encryption
-            String key = keyTextField.getText();
-            int keyLen= keyTextField.getText().length();
-            String plainText = plainTextArea.getText().toLowerCase();
-            plainText = plainText.replaceAll("\\s","");
-            String cipherText = "";
-            
-            cipherTextArea.setText(cipherText);
+    private void encrypt() {
+        if (plainTextArea.getText().length() != 0 && keyTextField.getText().length() != 0) {
+            //Text area and key field isn't empty so we now check key length
+            if (keyTextField.getText().length() <= plainTextArea.getText().length()) {
+                //check if this is a valid key
+                String key = keyTextField.getText().toLowerCase().replaceAll("\\s", "");
+                boolean invalidKey = false;
+                for (int index = 0, loop = 1; loop < key.length(); loop++) {
+                    if (key.charAt(index) == key.charAt(loop)) {
+                        invalidKey = true;
+                    }
+                    if (loop == key.length() - 1) {
+                        loop = ++index;
+                    }
+                }
+                if(!invalidKey){
+                    int keyLen = keyTextField.getText().length();
+                    String plainText = plainTextArea.getText().toLowerCase().replaceAll("\\s", "");
+                    String cipherText = "";
+                    int numRows = plainText.length() / keyLen;
+                    boolean remainder = false;
+                    String[] table;
+
+                    //if the key length does not evenly divide the message length
+                    if ((plainText.length() % keyLen) > 0) {
+                        remainder = true;
+                        table = new String[numRows + 1];
+                    } else {
+                        table = new String[numRows];
+                    }
+                    //generate all the rows for the table
+                    for (int i = 0; i < numRows; ++i) {
+                        table[i] = plainText.substring(i * keyLen, i * keyLen + keyLen + 1);
+                    }
+                    if (remainder) {
+                        table[numRows] = plainText.substring(numRows * keyLen);
+                    }
+
+                    cipherTextArea.setText(cipherText);
+                }
+            }
         }
     }
-    
-    private void decrypt(){
-        if(cipherTextArea.getText().length()!= 0){
-            //Text area isn't empty so we can perform the encryption
+
+    private void decrypt() {
+        if (cipherTextArea.getText().length() != 0) {
+            //Text area key field isn't empty so we can perform the decryption
             String key = keyTextField.getText();
             String cipherText = cipherTextArea.getText().toLowerCase();
-            cipherText = cipherText.replaceAll("\\s","");
+            cipherText = cipherText.replaceAll("\\s", "");
             String plainText = "";
-            
+
             plainTextArea.setText(plainText);
         }
-        
+
     }
 }
