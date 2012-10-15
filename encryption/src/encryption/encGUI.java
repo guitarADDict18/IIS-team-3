@@ -20,9 +20,8 @@ public class encGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         substitutionPanel1 = new encryption.substitutionPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel3 = new javax.swing.JPanel();
+        transpositionPanel1 = new encryption.transpositionPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -35,34 +34,9 @@ public class encGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Substitution", jScrollPane1);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
-        );
-
-        jScrollPane2.setViewportView(jPanel3);
+        jScrollPane2.setViewportView(transpositionPanel1);
 
         jTabbedPane1.addTab("Transposition", jScrollPane2);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
-        );
-
-        jScrollPane3.setViewportView(jPanel2);
-
         jTabbedPane1.addTab("Vigenere", jScrollPane3);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -113,12 +87,11 @@ public class encGUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private encryption.substitutionPanel substitutionPanel1;
+    private encryption.transpositionPanel transpositionPanel1;
     // End of variables declaration//GEN-END:variables
 }
