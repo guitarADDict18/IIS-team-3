@@ -3,7 +3,8 @@
  * and open the template in the editor.
  */
 package encryption;
-
+import javax.swing.*;
+import java.awt.event.*;
 /**
  *
  * @author Andrei
@@ -42,6 +43,7 @@ public class transpositionPanel extends javax.swing.JPanel {
         cpButton = new javax.swing.JRadioButton();
         solveButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        chkMediation = new javax.swing.JCheckBox();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -163,6 +165,11 @@ public class transpositionPanel extends javax.swing.JPanel {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         add(jLabel4, gridBagConstraints);
+
+        chkMediation.setSelected(true);
+        chkMediation.setText("Complete Mediation");
+        chkMediation.setName("chkMediation"); // NOI18N
+        add(chkMediation, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
@@ -186,6 +193,7 @@ public class transpositionPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_cpButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox chkMediation;
     private javax.swing.JTextArea cipherTextArea;
     private javax.swing.JRadioButton cpButton;
     private javax.swing.JLabel jLabel1;
@@ -203,29 +211,94 @@ public class transpositionPanel extends javax.swing.JPanel {
     private javax.swing.JTable visTable;
     // End of variables declaration//GEN-END:variables
 
+     
     private void encrypt(){
-        if(plainTextArea.getText().length()!= 0){
-            //Text area isn't empty so we can perform the encryption
-            String key = keyTextField.getText();
-            int keyLen= keyTextField.getText().length();
-            String plainText = plainTextArea.getText().toLowerCase();
-            plainText = plainText.replaceAll("\\s","");
-            String cipherText = "";
-            
-            cipherTextArea.setText(cipherText);
+       if(mediate())
+       {
+            if (plainTextArea.getText().length() != 0) {
+                //Text area isn't empty so we can perform the encryption
+                String key = keyTextField.getText();
+                int keyLen = keyTextField.getText().length();
+                String plainText = plainTextArea.getText().toLowerCase();
+                plainText = plainText.replaceAll("\\s", ""); // replaces space with blank
+                String cipherText = "";
+
+                cipherTextArea.setText(cipherText);
+            }
         }
     }
     
     private void decrypt(){
-        if(cipherTextArea.getText().length()!= 0){
-            //Text area isn't empty so we can perform the encryption
-            String key = keyTextField.getText();
-            String cipherText = cipherTextArea.getText().toLowerCase();
-            cipherText = cipherText.replaceAll("\\s","");
-            String plainText = "";
-            
-            plainTextArea.setText(plainText);
+        if(mediate())
+        {
+            if (cipherTextArea.getText().length() != 0) {
+                //Text area isn't empty so we can perform the encryption
+                String key = keyTextField.getText();
+                String cipherText = cipherTextArea.getText().toLowerCase();
+                cipherText = cipherText.replaceAll("\\s", "");
+                String plainText = "";
+
+                plainTextArea.setText(plainText);
+            }
         }
-        
+    }
+    
+    private boolean mediate(){  // error checking, called only if checkbox is checked
+        boolean isGood = true;
+        if(chkMediation.isSelected())
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Please fix the following errors: \n\n");
+            
+            // checking lengths
+            int trueLength = cipherTextArea.getText().replaceAll("\\s","").length();
+            if(keyTextField.getText().length() > trueLength
+               && cipherTextArea.isEnabled())
+            {
+                sb.append("* The key cannot be longer then the cipher text \n");
+                isGood = false;
+            }
+
+            trueLength = plainTextArea.getText().replaceAll("\\s","").length();
+            if(keyTextField.getText().length() > trueLength
+               && plainTextArea.isEnabled())
+            {
+                sb.append("* The key cannot be longer then the plain text \n");
+                isGood = false;
+            }
+            
+            // need to check for repeat characters in key
+            String adjKey = keyTextField.getText().toLowerCase();
+            adjKey = adjKey.replaceAll("\\s", ""); //takes lower case and takes
+            // out spaces
+            boolean keepgoing = true;
+            for(int i = 0; i < adjKey.length();i++){
+                for(int j = 0; j < adjKey.length(); j++)
+                {
+                    if(j <= i) 
+                        continue;
+                    
+                    char current = adjKey.charAt(i);
+                    char compare = adjKey.charAt(j);
+                    if(current == compare)
+                    {
+                        isGood = false;
+                        keepgoing = false;
+                        sb.append("* The key cannot contain repeat characters \n");
+                        break;
+                    }
+                }
+                if(!keepgoing)
+                    break;
+            }
+            
+            if(!isGood)
+            {
+                String message = sb.toString();
+                JOptionPane op = new JOptionPane();
+                op.showMessageDialog(null, message);
+            }
+        }
+        return isGood;
     }
 }
