@@ -209,16 +209,8 @@ public class transpositionPanel extends javax.swing.JPanel {
             if (keyTextField.getText().length() <= plainTextArea.getText().length()) {
                 //check if this is a valid key
                 String key = keyTextField.getText().toLowerCase().replaceAll("\\s", "");
-                boolean invalidKey = false;
-                for (int index = 0, loop = 1; loop < key.length(); loop++) {
-                    if (key.charAt(index) == key.charAt(loop)) {
-                        invalidKey = true;
-                    }
-                    if (loop == key.length() - 1) {
-                        loop = ++index;
-                    }
-                }
-                if(!invalidKey){
+                boolean invalidKey = checkKey(key);
+                if (!invalidKey) {
                     int keyLen = keyTextField.getText().length();
                     String plainText = plainTextArea.getText().toLowerCase().replaceAll("\\s", "");
                     String cipherText = "";
@@ -258,5 +250,17 @@ public class transpositionPanel extends javax.swing.JPanel {
             plainTextArea.setText(plainText);
         }
 
+    }
+
+    private boolean checkKey(String key) {
+        for (int index = 0, loop = 1; loop < key.length(); loop++) {
+            if (key.charAt(index) == key.charAt(loop)) {
+                return true;
+            }
+            if (loop == key.length() - 1) {
+                loop = ++index;
+            }
+        }
+        return false;
     }
 }
