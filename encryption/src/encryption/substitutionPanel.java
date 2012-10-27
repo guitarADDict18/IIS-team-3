@@ -177,16 +177,14 @@ public class substitutionPanel extends javax.swing.JPanel {
             int key = keyComboBox.getSelectedIndex();
             System.out.println(key);//debug line
             String plainText = plainTextArea.getText().toLowerCase();
-            plainText = plainText.replaceAll("\\s","");
+            plainText = plainText.replaceAll("[^a-z]",""); //ptxt is english alphabet only
             String cipherText = "";
             for(int i=0; i<plainText.length(); ++i){
-                char temp;
-                if(plainText.charAt(i) + key > 122){
-                    temp = (char)(plainText.charAt(i) + key - 26);
-                }else{
-                    temp = (char)(plainText.charAt(i) + key);
+                char temp = (char)(plainText.charAt(i) + (key));
+                if(temp > 'z'){
+                    temp -= 26;
                 }
-                cipherText += (char)temp;
+                cipherText += temp;
             }
             cipherTextArea.setText(cipherText);
         }
@@ -197,19 +195,16 @@ public class substitutionPanel extends javax.swing.JPanel {
             //Text area isn't empty so we can perform the encryption
             int key = keyComboBox.getSelectedIndex();
             String cipherText = cipherTextArea.getText().toLowerCase();
-            cipherText = cipherText.replaceAll("\\s","");
+            cipherText = cipherText.replaceAll("[^a-z]",""); //ctxt is english alphabet only
             String plainText = "";
             for(int i=0; i<cipherText.length(); ++i){
-                char temp;
-                if(cipherText.charAt(i) - key < 97){
-                    temp = (char)(cipherText.charAt(i) - key + 26);
-                }else{
-                    temp = (char)(cipherText.charAt(i) - key);
+                char temp = (char)(cipherText.charAt(i) - key);
+                if(temp < 'a'){
+                    temp += 26;
                 }
-                plainText += (char)temp;
+                plainText += temp;
             }
             plainTextArea.setText(plainText);
-        }
-        
+        }        
     }
 }
