@@ -3,14 +3,6 @@
  * and open the template in the editor.
  */
 package encryption;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 /**
  *
  * @author Andrei
@@ -192,12 +184,12 @@ public class vigenerePanel extends javax.swing.JPanel {
             char encoded[], plain[], key[];
             int msgLength, keyLength, count = 0;
 
-            codedMsg = cipherTextArea.getText().toUpperCase().replaceAll("\\s", "");
+            codedMsg = cipherTextArea.getText().toLowerCase().replaceAll("\\s", "");
             encoded = codedMsg.toCharArray();
             msgLength = codedMsg.length();
             plain = new char[msgLength];
 
-            k = keyTextField.getText().toUpperCase().replaceAll("\\s", "");
+            k = keyTextField.getText().toLowerCase().replaceAll("\\s", "");
             key = k.toCharArray();
             keyLength = k.length();
 
@@ -225,12 +217,12 @@ public class vigenerePanel extends javax.swing.JPanel {
             char encoded[], plain[], key[];
             int msgLength, keyLength, count = 0;
 
-            plainMsg = plainTextArea.getText().replaceAll("\\s", "").toUpperCase();
+            plainMsg = plainTextArea.getText().replaceAll("\\s", "").toLowerCase();
             plain = plainMsg.toCharArray();
             msgLength = plainMsg.length();
             encoded = new char[msgLength];
 
-            k = keyTextField.getText().replaceAll("\\s", "").toUpperCase();
+            k = keyTextField.getText().replaceAll("\\s", "").toLowerCase();
             key = k.toCharArray();
             keyLength = k.length();
 
