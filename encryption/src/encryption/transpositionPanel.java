@@ -5,6 +5,9 @@
 package encryption;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 /**
  *
  * @author Andrei
@@ -73,17 +76,7 @@ public class transpositionPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 15);
         add(jScrollPane2, gridBagConstraints);
 
-        visTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        visTable.setAutoCreateColumnsFromModel(false);
         visTable.setPreferredSize(new java.awt.Dimension(200, 64));
         visTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(visTable);
@@ -92,6 +85,7 @@ public class transpositionPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         add(jScrollPane3, gridBagConstraints);
 
         jLabel1.setText("Plaintext");
@@ -219,28 +213,156 @@ public class transpositionPanel extends javax.swing.JPanel {
                 //Text area isn't empty so we can perform the encryption
                 String key = keyTextField.getText();
                 int keyLen = keyTextField.getText().length();
-                String plainText = plainTextArea.getText().toLowerCase();
-                plainText = plainText.replaceAll("\\s", ""); // replaces space with blank
+              //  String plainText = plainTextArea.getText().toLowerCase();
+                String plainText = plainTextArea.getText().replaceAll("\\s", ""); // replaces space with blank
                 String cipherText = "";
-
+                int plainLen = plainText.length();
+                
+                int row_dimension = (int)Math.ceil((double)plainLen/(double)keyLen);
+                                    
+                // [rows][columns]
+                Character [][] trans_matrix = new Character[row_dimension][keyLen];  
+                
+                // need to write the word to this matrix row by row
+                int wordcounter = 0;
+                boolean go = true;
+                for(int row = 0; row < row_dimension; row++){
+                    for(int column = 0; column < keyLen; column++){
+                        char current = plainText.charAt(wordcounter);
+                        trans_matrix[row][column] = new Character(current);
+                        ++wordcounter;
+                        if(wordcounter == plainLen)
+                        {
+                            go = false;
+                            break;
+                        }
+                    }
+                    if(!go)
+                        break;
+                }
+                
+                // trying to get the visual table working...
+                Character[] columnnames = new Character[key.length()];
+                for(int i = 0; i<key.length(); i++)
+                {
+                    columnnames[i] = new Character(key.charAt(i));
+                }
+                JTable visual = new JTable(trans_matrix,columnnames);
+                jScrollPane3.add(visual);
+                
+                //need to grab the cipher text from the table column by 
+                // column in the order specified by the keyword
+                StringBuilder cipher = new StringBuilder();
+                
+                char[] key_c = key.toCharArray();
+                
+                for(int i = 1; i < key.length(); i++){ // insertion sort
+                   char element1 = key_c[i];
+                   int j = i;
+                   while((j>0) && (key_c[j-1] > element1)){
+                       key_c[j] = key_c[j-1];
+                       j--;             
+                   }
+                   key_c[j] = element1;
+                }
+                                
+                for(int i = 0; i < key.length(); i++){
+                    int working_column = location(key_c,key.charAt(i));
+                    for(int row = 0; row<row_dimension; row++){
+                        if(trans_matrix[row][working_column] == null)
+                        {
+                            continue;
+                        }
+                        char column_elem = trans_matrix[row][working_column];
+                        cipher.append(column_elem);    
+                    }
+                }
+                cipherText = cipher.toString();
                 cipherTextArea.setText(cipherText);
             }
         }
     }
     
-    private void decrypt(){
-        if(mediate())
-        {
+    private void decrypt() {
+        if (mediate()) {
             if (cipherTextArea.getText().length() != 0) {
                 //Text area isn't empty so we can perform the encryption
-                String key = keyTextField.getText();
+                String key = keyTextField.getText().toLowerCase().replaceAll("\\s","");
+                int keyLen = key.length();
+
                 String cipherText = cipherTextArea.getText().toLowerCase();
                 cipherText = cipherText.replaceAll("\\s", "");
+                int cipherLen = cipherText.length();
+
                 String plainText = "";
 
+                int row_dimension = (int) Math.ceil((double) cipherLen / (double) keyLen);
+                // [rows][columns]
+                Character[][] trans_matrix = new Character[row_dimension][keyLen];
+                
+                char[] key_c = key.toCharArray();
+                // sort the keyword
+                for(int i = 1; i < key.length(); i++){ 
+                   char element1 = key_c[i];
+                   int j = i;
+                   while((j>0) && (key_c[j-1] > element1)){
+                       key_c[j] = key_c[j-1];
+                       j--;             
+                   }
+                   key_c[j] = element1;
+                }
+                
+                
+                int wordcounter = 0;
+                int full_rows = cipherLen%keyLen;
+                boolean go = true;
+                for(int key_i = 0; key_i < key.length(); key_i++){
+                    int current_column = location(key_c,key.charAt(key_i)); 
+                    for(int row = 0; row<row_dimension; row++){
+                        if(current_column < full_rows || full_rows == 0){
+                            trans_matrix[row][current_column] = 
+                               new Character(cipherText.charAt(wordcounter));
+                            wordcounter++;
+                        }
+                        else{
+                            if(row == row_dimension-1){
+                                continue;
+                            }
+                            else{
+                                trans_matrix[row][current_column] = 
+                               new Character(cipherText.charAt(wordcounter));
+                            wordcounter++; 
+                            }
+                        }
+                    }
+                }
+                
+                // need to figure out how to write this trans_matrix to the 
+                // visual table
+                
+                // reads of matrix and puts it in plain text as solution
+                StringBuilder plain = new StringBuilder();
+                for(int row = 0; row<row_dimension; row++){
+                    for(int column = 0; column<key.length(); column++){
+                        if(trans_matrix[row][column] == null)
+                            continue;
+                        plain.append(trans_matrix[row][column]);
+                    }
+                }
+                
+                plainText = plain.toString();
                 plainTextArea.setText(plainText);
             }
         }
+    }
+    
+    private int location(char[] key, char letter){
+        for(int i = 0; i < key.length; i++){
+            if(key[i] == letter){
+                return i;
+            }
+        }
+        return -1;
     }
     
     private boolean mediate(){  // error checking, called only if checkbox is checked
