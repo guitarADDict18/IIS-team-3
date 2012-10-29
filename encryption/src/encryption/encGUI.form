@@ -80,6 +80,10 @@
           </Constraints>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="encryption.vigenerePanel" name="vigenerePanel1">
+            </Component>
+          </SubComponents>
         </Container>
       </SubComponents>
     </Container>

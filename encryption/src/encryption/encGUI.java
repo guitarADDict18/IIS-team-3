@@ -22,6 +22,7 @@ public class encGUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         transpositionPanel1 = new encryption.transpositionPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
+        vigenerePanel1 = new encryption.vigenerePanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -37,6 +38,9 @@ public class encGUI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(transpositionPanel1);
 
         jTabbedPane1.addTab("Transposition", jScrollPane2);
+
+        jScrollPane3.setViewportView(vigenerePanel1);
+
         jTabbedPane1.addTab("Vigenere", jScrollPane3);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -93,5 +97,6 @@ public class encGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private encryption.substitutionPanel substitutionPanel1;
     private encryption.transpositionPanel transpositionPanel1;
+    private encryption.vigenerePanel vigenerePanel1;
     // End of variables declaration//GEN-END:variables
 }
