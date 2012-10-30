@@ -3,11 +3,14 @@
  * and open the template in the editor.
  */
 package encryption;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Andrei
@@ -36,8 +39,6 @@ public class transpositionPanel extends javax.swing.JPanel {
         plainTextArea = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         cipherTextArea = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        visTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -47,6 +48,8 @@ public class transpositionPanel extends javax.swing.JPanel {
         solveButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         chkMediation = new javax.swing.JCheckBox();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        visTable = new javax.swing.JTable();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -75,18 +78,6 @@ public class transpositionPanel extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 15);
         add(jScrollPane2, gridBagConstraints);
-
-        visTable.setAutoCreateColumnsFromModel(false);
-        visTable.setPreferredSize(new java.awt.Dimension(200, 64));
-        visTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(visTable);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
-        add(jScrollPane3, gridBagConstraints);
 
         jLabel1.setText("Plaintext");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -164,12 +155,31 @@ public class transpositionPanel extends javax.swing.JPanel {
         chkMediation.setText("Complete Mediation");
         chkMediation.setName("chkMediation"); // NOI18N
         add(chkMediation, new java.awt.GridBagConstraints());
+
+        visTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(visTable);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        add(jScrollPane4, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
-        if(cpButton.isSelected()){
+        if (cpButton.isSelected()) {
             decrypt();
-        }else{
+        } else {
             encrypt();
         }
     }//GEN-LAST:event_solveButtonActionPerformed
@@ -185,7 +195,6 @@ public class transpositionPanel extends javax.swing.JPanel {
         plainTextArea.setEnabled(false);
         cipherTextArea.setEnabled(true);
     }//GEN-LAST:event_cpButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chkMediation;
     private javax.swing.JTextArea cipherTextArea;
@@ -196,7 +205,7 @@ public class transpositionPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField keyTextField;
     private javax.swing.JRadioButton pcButton;
     private javax.swing.JTextArea plainTextArea;
@@ -205,76 +214,76 @@ public class transpositionPanel extends javax.swing.JPanel {
     private javax.swing.JTable visTable;
     // End of variables declaration//GEN-END:variables
 
-     
-    private void encrypt(){
-       if(mediate())
-       {
+    private void encrypt() {
+        if (mediate()) {
             if (plainTextArea.getText().length() != 0) {
                 //Text area isn't empty so we can perform the encryption
                 String key = keyTextField.getText();
                 int keyLen = keyTextField.getText().length();
-              //  String plainText = plainTextArea.getText().toLowerCase();
+                //  String plainText = plainTextArea.getText().toLowerCase();
                 String plainText = plainTextArea.getText().replaceAll("\\s", ""); // replaces space with blank
+                plainText = plainText.replaceAll("[^a-z]", ""); //ptxt is english alphabet only
                 String cipherText = "";
                 int plainLen = plainText.length();
-                
-                int row_dimension = (int)Math.ceil((double)plainLen/(double)keyLen);
-                                    
+
+                int row_dimension = (int) Math.ceil((double) plainLen / (double) keyLen);
+
                 // [rows][columns]
-                Character [][] trans_matrix = new Character[row_dimension][keyLen];  
-                
+                Character[][] trans_matrix = new Character[row_dimension][keyLen];
+
                 // need to write the word to this matrix row by row
                 int wordcounter = 0;
                 boolean go = true;
-                for(int row = 0; row < row_dimension; row++){
-                    for(int column = 0; column < keyLen; column++){
+                for (int row = 0; row < row_dimension; row++) {
+                    for (int column = 0; column < keyLen; column++) {
                         char current = plainText.charAt(wordcounter);
                         trans_matrix[row][column] = new Character(current);
                         ++wordcounter;
-                        if(wordcounter == plainLen)
-                        {
+                        if (wordcounter == plainLen) {
                             go = false;
                             break;
                         }
                     }
-                    if(!go)
+                    if (!go) {
                         break;
+                    }
                 }
-                
-                // trying to get the visual table working...
-                Character[] columnnames = new Character[key.length()];
-                for(int i = 0; i<key.length(); i++)
-                {
-                    columnnames[i] = new Character(key.charAt(i));
+
+                //customize col and row of visTable
+                String[] columnNames = new String[keyLen];
+                for (int i = 0; i < keyLen; i++) {
+                    columnNames[i] = key.substring(i, i + 1);
                 }
-                JTable visual = new JTable(trans_matrix,columnnames);
-                jScrollPane3.add(visual);
-                
+                Object[][] data = new Object[row_dimension][keyLen];
+                for (int i = 0; i < plainText.length(); ++i) {
+                    data[i / keyLen][i % keyLen] = plainText.substring(i, i + 1);
+                }
+                visTable.setModel(new DefaultTableModel(data, columnNames));
+
                 //need to grab the cipher text from the table column by 
                 // column in the order specified by the keyword
                 StringBuilder cipher = new StringBuilder();
-                
+
                 char[] key_c = key.toCharArray();
-                
-                for(int i = 1; i < key.length(); i++){ // insertion sort
-                   char element1 = key_c[i];
-                   int j = i;
-                   while((j>0) && (key_c[j-1] > element1)){
-                       key_c[j] = key_c[j-1];
-                       j--;             
-                   }
-                   key_c[j] = element1;
+
+                for (int i = 1; i < key.length(); i++) { // insertion sort
+                    char element1 = key_c[i];
+                    int j = i;
+                    while ((j > 0) && (key_c[j - 1] > element1)) {
+                        key_c[j] = key_c[j - 1];
+                        j--;
+                    }
+                    key_c[j] = element1;
                 }
-                                
-                for(int i = 0; i < key.length(); i++){
-                    int working_column = location(key_c,key.charAt(i));
-                    for(int row = 0; row<row_dimension; row++){
-                        if(trans_matrix[row][working_column] == null)
-                        {
+
+                for (int i = 0; i < key.length(); i++) {
+                    int working_column = location(key_c, key.charAt(i));
+                    for (int row = 0; row < row_dimension; row++) {
+                        if (trans_matrix[row][working_column] == null) {
                             continue;
                         }
                         char column_elem = trans_matrix[row][working_column];
-                        cipher.append(column_elem);    
+                        cipher.append(column_elem);
                     }
                 }
                 cipherText = cipher.toString();
@@ -282,12 +291,12 @@ public class transpositionPanel extends javax.swing.JPanel {
             }
         }
     }
-    
+
     private void decrypt() {
         if (mediate()) {
             if (cipherTextArea.getText().length() != 0) {
                 //Text area isn't empty so we can perform the encryption
-                String key = keyTextField.getText().toLowerCase().replaceAll("\\s","");
+                String key = keyTextField.getText().toLowerCase().replaceAll("\\s", "");
                 int keyLen = key.length();
 
                 String cipherText = cipherTextArea.getText().toLowerCase();
@@ -299,123 +308,118 @@ public class transpositionPanel extends javax.swing.JPanel {
                 int row_dimension = (int) Math.ceil((double) cipherLen / (double) keyLen);
                 // [rows][columns]
                 Character[][] trans_matrix = new Character[row_dimension][keyLen];
-                
+
                 char[] key_c = key.toCharArray();
                 // sort the keyword
-                for(int i = 1; i < key.length(); i++){ 
-                   char element1 = key_c[i];
-                   int j = i;
-                   while((j>0) && (key_c[j-1] > element1)){
-                       key_c[j] = key_c[j-1];
-                       j--;             
-                   }
-                   key_c[j] = element1;
+                for (int i = 1; i < key.length(); i++) {
+                    char element1 = key_c[i];
+                    int j = i;
+                    while ((j > 0) && (key_c[j - 1] > element1)) {
+                        key_c[j] = key_c[j - 1];
+                        j--;
+                    }
+                    key_c[j] = element1;
                 }
-                
-                
+
+
                 int wordcounter = 0;
-                int full_rows = cipherLen%keyLen;
+                int full_rows = cipherLen % keyLen;
                 boolean go = true;
-                for(int key_i = 0; key_i < key.length(); key_i++){
-                    int current_column = location(key_c,key.charAt(key_i)); 
-                    for(int row = 0; row<row_dimension; row++){
-                        if(current_column < full_rows || full_rows == 0){
-                            trans_matrix[row][current_column] = 
-                               new Character(cipherText.charAt(wordcounter));
+                for (int key_i = 0; key_i < key.length(); key_i++) {
+                    int current_column = location(key_c, key.charAt(key_i));
+                    for (int row = 0; row < row_dimension; row++) {
+                        if (current_column < full_rows || full_rows == 0) {
+                            trans_matrix[row][current_column] =
+                                    new Character(cipherText.charAt(wordcounter));
                             wordcounter++;
-                        }
-                        else{
-                            if(row == row_dimension-1){
+                        } else {
+                            if (row == row_dimension - 1) {
                                 continue;
-                            }
-                            else{
-                                trans_matrix[row][current_column] = 
-                               new Character(cipherText.charAt(wordcounter));
-                            wordcounter++; 
+                            } else {
+                                trans_matrix[row][current_column] =
+                                        new Character(cipherText.charAt(wordcounter));
+                                wordcounter++;
                             }
                         }
                     }
                 }
-                
+
                 // need to figure out how to write this trans_matrix to the 
                 // visual table
-                
+
                 // reads of matrix and puts it in plain text as solution
                 StringBuilder plain = new StringBuilder();
-                for(int row = 0; row<row_dimension; row++){
-                    for(int column = 0; column<key.length(); column++){
-                        if(trans_matrix[row][column] == null)
+                for (int row = 0; row < row_dimension; row++) {
+                    for (int column = 0; column < key.length(); column++) {
+                        if (trans_matrix[row][column] == null) {
                             continue;
+                        }
                         plain.append(trans_matrix[row][column]);
                     }
                 }
-                
+
                 plainText = plain.toString();
                 plainTextArea.setText(plainText);
             }
         }
     }
-    
-    private int location(char[] key, char letter){
-        for(int i = 0; i < key.length; i++){
-            if(key[i] == letter){
+
+    private int location(char[] key, char letter) {
+        for (int i = 0; i < key.length; i++) {
+            if (key[i] == letter) {
                 return i;
             }
         }
         return -1;
     }
-    
-    private boolean mediate(){  // error checking, called only if checkbox is checked
+
+    private boolean mediate() {  // error checking, called only if checkbox is checked
         boolean isGood = true;
-        if(chkMediation.isSelected())
-        {
+        if (chkMediation.isSelected()) {
             StringBuilder sb = new StringBuilder();
             sb.append("Please fix the following errors: \n\n");
-            
+
             // checking lengths
-            int trueLength = cipherTextArea.getText().replaceAll("\\s","").length();
-            if(keyTextField.getText().length() > trueLength
-               && cipherTextArea.isEnabled())
-            {
+            int trueLength = cipherTextArea.getText().replaceAll("\\s", "").length();
+            if (keyTextField.getText().length() > trueLength
+                    && cipherTextArea.isEnabled()) {
                 sb.append("* The key cannot be longer then the cipher text \n");
                 isGood = false;
             }
 
-            trueLength = plainTextArea.getText().replaceAll("\\s","").length();
-            if(keyTextField.getText().length() > trueLength
-               && plainTextArea.isEnabled())
-            {
+            trueLength = plainTextArea.getText().replaceAll("\\s", "").length();
+            if (keyTextField.getText().length() > trueLength
+                    && plainTextArea.isEnabled()) {
                 sb.append("* The key cannot be longer then the plain text \n");
                 isGood = false;
             }
-            
+
             // need to check for repeat characters in key
             String adjKey = keyTextField.getText().toLowerCase();
             adjKey = adjKey.replaceAll("\\s", ""); //takes lower case and takes
             // out spaces
             boolean keepgoing = true;
-            for(int i = 0; i < adjKey.length();i++){
-                for(int j = 0; j < adjKey.length(); j++)
-                {
-                    if(j <= i) 
+            for (int i = 0; i < adjKey.length(); i++) {
+                for (int j = 0; j < adjKey.length(); j++) {
+                    if (j <= i) {
                         continue;
-                    
+                    }
+
                     char current = adjKey.charAt(i);
                     char compare = adjKey.charAt(j);
-                    if(current == compare)
-                    {
+                    if (current == compare) {
                         isGood = false;
                         keepgoing = false;
                         sb.append("* The key cannot contain repeat characters \n");
                         break;
                     }
                 }
-                if(!keepgoing)
+                if (!keepgoing) {
                     break;
+                }
             }
-            
-            if(!isGood)
-            {
+
+            if (!isGood) {
                 String message = sb.toString();
                 JOptionPane op = new JOptionPane();
                 op.showMessageDialog(null, message);
