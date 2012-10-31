@@ -5,10 +5,6 @@
 package encryption;
 
 import javax.swing.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -249,16 +245,7 @@ public class transpositionPanel extends javax.swing.JPanel {
                     }
                 }
 
-                //customize col and row of visTable
-                String[] columnNames = new String[keyLen];
-                for (int i = 0; i < keyLen; i++) {
-                    columnNames[i] = key.substring(i, i + 1);
-                }
-                Object[][] data = new Object[row_dimension][keyLen];
-                for (int i = 0; i < plainText.length(); ++i) {
-                    data[i / keyLen][i % keyLen] = plainText.substring(i, i + 1);
-                }
-                visTable.setModel(new DefaultTableModel(data, columnNames));
+                updateVisTable(keyLen, row_dimension, key, plainText);
 
                 //need to grab the cipher text from the table column by 
                 // column in the order specified by the keyword
@@ -343,10 +330,7 @@ public class transpositionPanel extends javax.swing.JPanel {
                         }
                     }
                 }
-
-                // need to figure out how to write this trans_matrix to the 
-                // visual table
-
+                
                 // reads of matrix and puts it in plain text as solution
                 StringBuilder plain = new StringBuilder();
                 for (int row = 0; row < row_dimension; row++) {
@@ -360,10 +344,26 @@ public class transpositionPanel extends javax.swing.JPanel {
 
                 plainText = plain.toString();
                 plainTextArea.setText(plainText);
+                updateVisTable(keyLen, row_dimension, key, plainText);
             }
         }
     }
-
+    
+    private void updateVisTable(int keyLen, int row_dimension, String key, String plainText){
+        //copy pasta-ed
+        //customize col and row of visTable
+        String[] columnNames = new String[keyLen];
+        for (int i = 0; i < keyLen; i++) {
+            columnNames[i] = key.substring(i, i
+                    + 1);
+        }
+        Object[][] data = new Object[row_dimension][keyLen];
+        for (int i = 0; i < plainText.length(); ++i) {
+            data[i / keyLen][i % keyLen] = plainText.substring(i, i + 1);
+        }
+        visTable.setModel(new DefaultTableModel(data, columnNames));
+    }
+    
     private int location(char[] key, char letter) {
         for (int i = 0; i < key.length; i++) {
             if (key[i] == letter) {
@@ -396,15 +396,11 @@ public class transpositionPanel extends javax.swing.JPanel {
 
             // need to check for repeat characters in key
             String adjKey = keyTextField.getText().toLowerCase();
-            adjKey = adjKey.replaceAll("\\s", ""); //takes lower case and takes
-            // out spaces
+            adjKey = adjKey.replaceAll("[^a-z]", ""); //takes lower case and takes
+            // out non alphabetical chars
             boolean keepgoing = true;
             for (int i = 0; i < adjKey.length(); i++) {
-                for (int j = 0; j < adjKey.length(); j++) {
-                    if (j <= i) {
-                        continue;
-                    }
-
+                for (int j = i+1; j < adjKey.length(); j++) {
                     char current = adjKey.charAt(i);
                     char compare = adjKey.charAt(j);
                     if (current == compare) {

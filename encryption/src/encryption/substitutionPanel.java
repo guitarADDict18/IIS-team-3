@@ -1,6 +1,6 @@
 package encryption;
 
-
+import javax.swing.*;
 public class substitutionPanel extends javax.swing.JPanel {
     public substitutionPanel() {
         initComponents();
@@ -28,6 +28,7 @@ public class substitutionPanel extends javax.swing.JPanel {
         keyComboBox = new javax.swing.JComboBox();
         solveButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        solveAll = new javax.swing.JButton();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -133,13 +134,24 @@ public class substitutionPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 5);
         add(jLabel3, gridBagConstraints);
+
+        solveAll.setText("Solve All");
+        solveAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solveAllActionPerformed(evt);
+            }
+        });
+        add(solveAll, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
-        if(cpButton.isSelected()){
-            decrypt();
-        }else{
-            encrypt();
+
+        int key = keyComboBox.getSelectedIndex();
+        
+        if(cpButton.isSelected() && cipherTextArea.getText().length()!= 0){
+            plainTextArea.setText(decrypt(key));
+        }else if(pcButton.isSelected() && plainTextArea.getText().length()!= 0){
+            cipherTextArea.setText(encrypt(key));
         }
     }//GEN-LAST:event_solveButtonActionPerformed
 
@@ -155,6 +167,12 @@ public class substitutionPanel extends javax.swing.JPanel {
         cipherTextArea.setEnabled(false);
     }//GEN-LAST:event_pcButtonActionPerformed
 
+private void solveAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveAllActionPerformed
+    if(cipherTextArea.getText().length() != 0){
+        decryptAll();
+    }
+}//GEN-LAST:event_solveAllActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextArea cipherTextArea;
@@ -167,44 +185,51 @@ public class substitutionPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox keyComboBox;
     private javax.swing.JRadioButton pcButton;
     private javax.swing.JTextArea plainTextArea;
+    private javax.swing.JButton solveAll;
     private javax.swing.JButton solveButton;
     // End of variables declaration//GEN-END:variables
 
-
-    private void encrypt(){
-        if(plainTextArea.getText().length()!= 0){
-            //Text area isn't empty so we can perform the encryption
-            int key = keyComboBox.getSelectedIndex();
-            System.out.println(key);//debug line
-            String plainText = plainTextArea.getText().toLowerCase();
-            plainText = plainText.replaceAll("[^a-z]",""); //ptxt is english alphabet only
-            String cipherText = "";
-            for(int i=0; i<plainText.length(); ++i){
-                char temp = (char)(plainText.charAt(i) + (key));
-                if(temp > 'z'){
-                    temp -= 26;
-                }
-                cipherText += temp;
+    private void decryptAll(){
+        if (cipherTextArea.getText().length() != 0) {
+            StringBuilder allPTexts = new StringBuilder();
+            for (int key = 0; key < 26; key++) {
+                allPTexts.append(decrypt(key) + "\n");
             }
-            cipherTextArea.setText(cipherText);
+            JOptionPane op = new JOptionPane();
+            op.showMessageDialog(null, allPTexts.toString());
         }
     }
-    
-    private void decrypt(){
-        if(cipherTextArea.getText().length()!= 0){
-            //Text area isn't empty so we can perform the encryption
-            int key = keyComboBox.getSelectedIndex();
-            String cipherText = cipherTextArea.getText().toLowerCase();
-            cipherText = cipherText.replaceAll("[^a-z]",""); //ctxt is english alphabet only
-            String plainText = "";
-            for(int i=0; i<cipherText.length(); ++i){
-                char temp = (char)(cipherText.charAt(i) - key);
-                if(temp < 'a'){
-                    temp += 26;
-                }
-                plainText += temp;
+
+    private String encrypt(int key){
+
+
+        String plainText = plainTextArea.getText().toLowerCase();
+        plainText = plainText.replaceAll("[^a-z]", ""); //ptxt is english alphabet only
+        String cipherText = "";
+        for (int i = 0; i < plainText.length(); ++i) {
+            char temp = (char) (plainText.charAt(i) + (key));
+            if (temp > 'z') {
+                temp -= 26;
             }
-            plainTextArea.setText(plainText);
-        }        
+            cipherText += temp;
+        }
+        return cipherText;
+
     }
+    
+    private String decrypt(int key){
+
+        String cipherText = cipherTextArea.getText().toLowerCase();
+        cipherText = cipherText.replaceAll("[^a-z]", ""); //ctxt is english alphabet only
+        String plainText = "";
+        for (int i = 0; i < cipherText.length(); ++i) {
+            char temp = (char) (cipherText.charAt(i) - key);
+            if (temp < 'a') {
+                temp += 26;
+            }
+            plainText += temp;
+        }
+        return plainText;
+    }
+    
 }
