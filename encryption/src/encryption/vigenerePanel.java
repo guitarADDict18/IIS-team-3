@@ -45,6 +45,7 @@ public class vigenerePanel extends javax.swing.JPanel {
         setLayout(new java.awt.GridBagLayout());
 
         plainTextArea.setColumns(20);
+        plainTextArea.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
         plainTextArea.setRows(5);
         jScrollPane1.setViewportView(plainTextArea);
 
@@ -59,6 +60,7 @@ public class vigenerePanel extends javax.swing.JPanel {
         add(jScrollPane1, gridBagConstraints);
 
         cipherTextArea.setColumns(20);
+        cipherTextArea.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
         cipherTextArea.setRows(5);
         cipherTextArea.setEnabled(false);
         jScrollPane2.setViewportView(cipherTextArea);
@@ -95,6 +97,8 @@ public class vigenerePanel extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
         add(jLabel3, gridBagConstraints);
+
+        keyTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;

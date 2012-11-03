@@ -35,6 +35,7 @@ public class encGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Substitution", jScrollPane1);
 
+        transpositionPanel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jScrollPane2.setViewportView(transpositionPanel1);
 
         jTabbedPane1.addTab("Transposition", jScrollPane2);
