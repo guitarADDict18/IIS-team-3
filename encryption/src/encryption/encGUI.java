@@ -18,11 +18,11 @@ public class encGUI extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        substitutionPanel1 = new encryption.substitutionPanel();
+        substitutionPanel2 = new encryption.substitutionPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        transpositionPanel1 = new encryption.transpositionPanel();
+        transpositionPanel2 = new encryption.transpositionPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        vigenerePanel1 = new encryption.vigenerePanel();
+        vigenerePanel2 = new encryption.vigenerePanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -31,16 +31,15 @@ public class encGUI extends javax.swing.JFrame {
         jTabbedPane1.setMinimumSize(new java.awt.Dimension(500, 500));
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(600, 600));
 
-        jScrollPane1.setViewportView(substitutionPanel1);
+        jScrollPane1.setViewportView(substitutionPanel2);
 
         jTabbedPane1.addTab("Substitution", jScrollPane1);
 
-        transpositionPanel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jScrollPane2.setViewportView(transpositionPanel1);
+        jScrollPane2.setViewportView(transpositionPanel2);
 
         jTabbedPane1.addTab("Transposition", jScrollPane2);
 
-        jScrollPane3.setViewportView(vigenerePanel1);
+        jScrollPane3.setViewportView(vigenerePanel2);
 
         jTabbedPane1.addTab("Vigenere", jScrollPane3);
 
@@ -96,8 +95,8 @@ public class encGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private encryption.substitutionPanel substitutionPanel1;
-    private encryption.transpositionPanel transpositionPanel1;
-    private encryption.vigenerePanel vigenerePanel1;
+    private encryption.substitutionPanel substitutionPanel2;
+    private encryption.transpositionPanel transpositionPanel2;
+    private encryption.vigenerePanel vigenerePanel2;
     // End of variables declaration//GEN-END:variables
 }

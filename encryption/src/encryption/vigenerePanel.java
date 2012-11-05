@@ -188,12 +188,12 @@ public class vigenerePanel extends javax.swing.JPanel {
             char encoded[], plain[], key[];
             int msgLength, keyLength, count = 0;
 
-            codedMsg = cipherTextArea.getText().toLowerCase().replaceAll("\\s", "");
+            codedMsg = cipherTextArea.getText().toLowerCase().replaceAll("[^a-z]", "");
             encoded = codedMsg.toCharArray();
             msgLength = codedMsg.length();
             plain = new char[msgLength];
 
-            k = keyTextField.getText().toLowerCase().replaceAll("\\s", "");
+            k = keyTextField.getText().toLowerCase().replaceAll("[^a-z]", "");
             key = k.toCharArray();
             keyLength = k.length();
 
@@ -221,17 +221,17 @@ public class vigenerePanel extends javax.swing.JPanel {
             char encoded[], plain[], key[];
             int msgLength, keyLength, count = 0;
 
-            plainMsg = plainTextArea.getText().replaceAll("\\s", "").toLowerCase();
+            plainMsg = plainTextArea.getText().replaceAll("[^a-z]", "").toLowerCase();
             plain = plainMsg.toCharArray();
             msgLength = plainMsg.length();
             encoded = new char[msgLength];
 
-            k = keyTextField.getText().replaceAll("\\s", "").toLowerCase();
+            k = keyTextField.getText().replaceAll("[^a-z]", "").toLowerCase();
             key = k.toCharArray();
             keyLength = k.length();
 
             while (count < msgLength) {
-                encoded[count] = grid[key[count % keyLength] - 65][plain[count] - 65];
+                encoded[count] = grid[key[count % keyLength] - 97][plain[count] - 97];
                 ++count;
             }
 
