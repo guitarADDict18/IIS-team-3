@@ -18,11 +18,13 @@ public class encGUI extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        substitutionPanel2 = new encryption.substitutionPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        transpositionPanel2 = new encryption.transpositionPanel();
+        substitutionPanel1 = new encryption.substitutionPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        vigenerePanel2 = new encryption.vigenerePanel();
+        vigenerePanel1 = new encryption.vigenerePanel();
+        railFenceCipher1 = new encryption.RailFenceCipher();
+        railFencePanel1 = new encryption.railFencePanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        transpositionPanel1 = new encryption.transpositionPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -31,17 +33,30 @@ public class encGUI extends javax.swing.JFrame {
         jTabbedPane1.setMinimumSize(new java.awt.Dimension(500, 500));
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(600, 600));
 
-        jScrollPane1.setViewportView(substitutionPanel2);
+        jScrollPane1.setViewportView(substitutionPanel1);
 
         jTabbedPane1.addTab("Substitution", jScrollPane1);
 
-        jScrollPane2.setViewportView(transpositionPanel2);
-
-        jTabbedPane1.addTab("Transposition", jScrollPane2);
-
-        jScrollPane3.setViewportView(vigenerePanel2);
+        jScrollPane3.setViewportView(vigenerePanel1);
 
         jTabbedPane1.addTab("Vigenere", jScrollPane3);
+
+        javax.swing.GroupLayout railFenceCipher1Layout = new javax.swing.GroupLayout(railFenceCipher1);
+        railFenceCipher1.setLayout(railFenceCipher1Layout);
+        railFenceCipher1Layout.setHorizontalGroup(
+            railFenceCipher1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(railFencePanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+        );
+        railFenceCipher1Layout.setVerticalGroup(
+            railFenceCipher1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(railFencePanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Rail Fence", railFenceCipher1);
+
+        jScrollPane2.setViewportView(transpositionPanel1);
+
+        jTabbedPane1.addTab("Transposition", jScrollPane2);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -95,8 +110,10 @@ public class encGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private encryption.substitutionPanel substitutionPanel2;
-    private encryption.transpositionPanel transpositionPanel2;
-    private encryption.vigenerePanel vigenerePanel2;
+    private encryption.RailFenceCipher railFenceCipher1;
+    private encryption.railFencePanel railFencePanel1;
+    private encryption.substitutionPanel substitutionPanel1;
+    private encryption.transpositionPanel transpositionPanel1;
+    private encryption.vigenerePanel vigenerePanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -222,6 +222,7 @@ public class transpositionPanel extends javax.swing.JPanel {
                 int keyLen = keyTextField.getText().length();
                 //  String plainText = plainTextArea.getText().toLowerCase();
                 String plainText = plainTextArea.getText().replaceAll("\\s", ""); // replaces space with blank
+                plainText = plainText.toLowerCase();
                 plainText = plainText.replaceAll("[^a-z]", ""); //ptxt is english alphabet only
                 String cipherText = "";
                 int plainLen = plainText.length();
@@ -311,7 +312,6 @@ public class transpositionPanel extends javax.swing.JPanel {
                     }
                     key_c[j] = element1;
                 }
-
 
                 int wordcounter = 0;
                 int full_rows = cipherLen % keyLen;

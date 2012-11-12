@@ -29,6 +29,8 @@ public class substitutionPanel extends javax.swing.JPanel {
         solveButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         solveAll = new javax.swing.JButton();
+        cpButton1 = new javax.swing.JRadioButton();
+        pcButton1 = new javax.swing.JRadioButton();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -48,7 +50,7 @@ public class substitutionPanel extends javax.swing.JPanel {
         add(jScrollPane1, gridBagConstraints);
 
         cipherTextArea.setColumns(20);
-        cipherTextArea.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        cipherTextArea.setFont(new java.awt.Font("Monospaced", 1, 14));
         cipherTextArea.setRows(5);
         cipherTextArea.setEnabled(false);
         jScrollPane2.setViewportView(cipherTextArea);
@@ -78,7 +80,6 @@ public class substitutionPanel extends javax.swing.JPanel {
         add(cpButton, gridBagConstraints);
 
         buttonGroup1.add(pcButton);
-        pcButton.setSelected(true);
         pcButton.setText("P -> C");
         pcButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +149,34 @@ public class substitutionPanel extends javax.swing.JPanel {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         add(solveAll, gridBagConstraints);
+
+        buttonGroup1.add(cpButton1);
+        cpButton1.setText("C -> P");
+        cpButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(12, 0, 0, 0);
+        add(cpButton1, gridBagConstraints);
+
+        buttonGroup1.add(pcButton1);
+        pcButton1.setSelected(true);
+        pcButton1.setText("P -> C");
+        pcButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pcButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
+        add(pcButton1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void solveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveButtonActionPerformed
@@ -179,10 +208,19 @@ private void solveAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
 }//GEN-LAST:event_solveAllActionPerformed
 
+private void cpButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpButton1ActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_cpButton1ActionPerformed
+
+private void pcButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pcButton1ActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_pcButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextArea cipherTextArea;
     private javax.swing.JRadioButton cpButton;
+    private javax.swing.JRadioButton cpButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -190,6 +228,7 @@ private void solveAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox keyComboBox;
     private javax.swing.JRadioButton pcButton;
+    private javax.swing.JRadioButton pcButton1;
     private javax.swing.JTextArea plainTextArea;
     private javax.swing.JButton solveAll;
     private javax.swing.JButton solveButton;
