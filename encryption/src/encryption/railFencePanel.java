@@ -1,6 +1,7 @@
 package encryption;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import javax.swing.*;
 
 public class railFencePanel extends javax.swing.JPanel {
@@ -172,7 +173,7 @@ public class railFencePanel extends javax.swing.JPanel {
         int key = keyComboBox.getSelectedIndex() +2;
 
         if(cpButton.isSelected() && cipherTextArea.getText().length()!= 0){
-            plainTextArea.setText(decrypt(key));
+            plainTextArea.setText(decrypt(cipherTextArea.getText(), key));
         }else if(pcButton.isSelected() && plainTextArea.getText().length()!= 0){
             cipherTextArea.setText(encrypt(plainTextArea.getText(), key));
         }
@@ -215,9 +216,6 @@ private void pcButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JButton solveButton;
     // End of variables declaration//GEN-END:variables
 
-    private void decryptAll(){
-    }
-
     private String encrypt(String plaintext, int key){
         String result = "";
 
@@ -233,7 +231,7 @@ private void pcButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             list.add(new String());
         }
 
-        // Equation: (index mod (key-1)*2) - (index mod (key-1)*2)/key * (2+(2*(index mod (key-1)*2) mod key))
+        // Equation:  (index mod (key-1)*2) - (index mod (key-1)*2)/key * (2+(2*(index mod (key-1)*2) mod key))
         for(int index = 0; index < length; index++)
         {
             int kmod = index %((key-1)*2);
@@ -250,7 +248,77 @@ private void pcButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         return result;
     }
     
-    private String decrypt(int key){
-        return "";
+    private String decrypt(String ciphertext, int key){
+        String plaintext = "";
+        int[] rowSizes = new int[key];
+        LinkedList[] lists = new LinkedList[key];
+        int textLength = ciphertext.length();
+        int order = 2 * (key - 1);
+        int numIter = textLength / order;
+        int numMod = textLength % order;
+        calcRowSizes(rowSizes, key, numIter, numMod);
+
+        //build the lists
+        for(int index = 0; index < key; index++)
+        {
+            lists[index] = new LinkedList();
+            for(int count = 0; count < rowSizes[index]; count++)
+            {
+                lists[index].add(ciphertext.charAt(0));
+                ciphertext = ciphertext.substring(1);
+            }
+        }
+
+        for(int index = 0; index < textLength; index++)
+        {
+            if(index % order < key)
+            {
+                plaintext += lists[index % order].remove(0);
+            }
+            else
+            {
+                plaintext += lists[order - (index % order)].remove(0);
+            }
+        }
+
+        return plaintext;
+    }
+
+    private void calcRowSizes(int[] rows, int size, int iterations, int mod)
+    {
+        zeroArray(rows, size);
+
+        for(int index = 0; index < size; index++)
+        {
+            if(index == 0 || index == size -1)
+            {
+                rows[index] = iterations;
+            }
+            else
+            {
+                rows[index] = 2 * iterations;
+            }
+        }
+
+        for(int index = 0; index < size && mod > 0; index++, mod--)
+        {
+            rows[index] += 1;
+        }
+
+        if(mod > 0)
+        {
+            for(int index = size-2; index > 0 && mod > 0; index--, mod--)
+            {
+                rows[index] += 1;
+            }
+        }
+    }
+
+    private void zeroArray(int[] array, int size)
+    {
+        for(int i = 0; i < size; i++)
+        {
+            array[i] = 0;
+        }
     }
 }
