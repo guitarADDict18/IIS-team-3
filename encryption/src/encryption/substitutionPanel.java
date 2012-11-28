@@ -50,7 +50,7 @@ public class substitutionPanel extends javax.swing.JPanel {
         add(jScrollPane1, gridBagConstraints);
 
         cipherTextArea.setColumns(20);
-        cipherTextArea.setFont(new java.awt.Font("Monospaced", 1, 14));
+        cipherTextArea.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
         cipherTextArea.setRows(5);
         cipherTextArea.setEnabled(false);
         jScrollPane2.setViewportView(cipherTextArea);
@@ -80,6 +80,7 @@ public class substitutionPanel extends javax.swing.JPanel {
         add(cpButton, gridBagConstraints);
 
         buttonGroup1.add(pcButton);
+        pcButton.setSelected(true);
         pcButton.setText("P -> C");
         pcButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,7 +166,6 @@ public class substitutionPanel extends javax.swing.JPanel {
         add(cpButton1, gridBagConstraints);
 
         buttonGroup1.add(pcButton1);
-        pcButton1.setSelected(true);
         pcButton1.setText("P -> C");
         pcButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
